@@ -330,5 +330,17 @@ describe('commercetools getCategories', function() {
                 });
         });
 
+        it('returns the Vary header', function() {
+            return chai.request(env.openwhiskEndpoint)
+                .get(env.categoriesPackage + 'getCategories')
+                .then(function (res) {
+                    expect(res).to.be.json;
+                    expect(res).to.have.status(HttpStatus.OK);
+                    expect(res).to.haveOwnProperty('header');
+                    expect(res.header).to.haveOwnProperty('vary');
+                    expect(res.header.vary).to.equal('Accept-Language');
+                });
+        });
+
     });
 });
